@@ -33,9 +33,9 @@ export const carReducer = (state = initialState, action) => {
            
             let moreFeatures = [...state.additionalFeatures]
 
-            moreFeatures.filter(item => (item.id !== action.payload))
-            return {...state, features: moreFeatures} 
-            
+            moreFeatures.filter(item => (item.id == action.payload))
+            return [...state, {features: moreFeatures}]
+            // return [...state, {item:action.payload, completed: false, id: Date.now() }];
         default:
             return state;
     }
