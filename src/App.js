@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from "react-redux"
-import { setPrice, setFeature } from './actions/priceActions';
+import { setFeature , setRemove } from './actions/priceActions';
 
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
@@ -15,13 +15,14 @@ const App = (props) => {
 
   const removeFeature = item => {
     // dispatch an action here to remove an item
+    props.setRemove(item.id);
   };
 
-  const buyItem = item => {
-    // dipsatch an action here to add an item
-    setFeature(item);
+  // const buyItem = item => {
+  //   // dipsatch an action here to add an item
+  //   props.setFeature(item.id);
     
-  };
+  // };
   
 
   console.log('props', props)
@@ -29,10 +30,10 @@ const App = (props) => {
     <div className="boxes">
       <div className="box">
         <Header car={props.car} />
-        <AddedFeatures car={props.car}  />
+        <AddedFeatures car={props.car} setRemove={removeFeature} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={props.additionalFeatures} buyItem={buyItem}  />
+        <AdditionalFeatures additionalFeatures={props.additionalFeatures}   />
         <Total car={props.car} additionalPrice={props.additionalPrice}  />
       </div>
     </div>
@@ -49,5 +50,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps, 
-  { setFeature, setPrice }
+  { setFeature, setRemove}
 )(App);

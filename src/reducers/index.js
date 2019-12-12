@@ -1,4 +1,4 @@
-
+import { UPDATE_FEATURES, REMOVE_FEATURES } from '../actions/priceActions'; 
 
 export const initialState =
     {
@@ -19,22 +19,49 @@ export const initialState =
 };
 
 
-export const carReducer = (state = initialState, action) => {
+export const carReducer = (state=initialState, action) => {
     
     switch(action.type){
-        case "UPDATE_ADDITIONAL_PRICE":
+        // case "UPDATE_ADDITIONAL_PRICE":
         
-        return {
-            ...state, 
-            additionalPrice: state.additionalPrice + state.car.features.price
-        }
+        // return {
+        //     ...state, 
+        //     additionalPrice: state.additionalPrice + state.car.features.price
+        // }
         
-        case 'UPDATE_FEATURES':
+        case UPDATE_FEATURES:
            
-            let moreFeatures = [...state.additionalFeatures]
+            // let moreFeatures = [...state.additionalFeatures]
 
-            moreFeatures.filter(item => (item.id == action.payload))
-            return [...state, {features: moreFeatures}]
+            return {
+              ...state, 
+              additionalPrice: state.additionalPrice + action.payload.price,
+              car: { 
+                ...state.car, 
+                features: [...state.car.features, action.payload]
+              },
+              additionalFeatures: state.additionalFeatures.filter(
+                  item => (item.id !== action.payload)
+              )  
+
+            }
+
+        case REMOVE_FEATURES:
+
+              return {
+                ...state, 
+                additionalPrice: state.additionalPrice - action.payload.price,
+                car: { 
+                    ...state.car, 
+                   features: state.car.features.filter(
+                    item => (item !== action.payload)
+                   )}
+                   
+                  //  additionalFeatures: [...state.additionalFeatures, action.payload]
+                
+
+              }
+            // return {...state, features: moreFeatures}
             // return [...state, {item:action.payload, completed: false, id: Date.now() }];
         default:
             return state;
